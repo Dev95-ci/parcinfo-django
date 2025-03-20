@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tableau de Bord - Gestion du Parc Informatique</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .sidebar {
+            height: 100vh;
+            width: 250px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: #343a40;
+            padding-top: 20px;
+        }
+        .sidebar a {
+            padding: 10px 15px;
+            text-decoration: none;
+            font-size: 18px;
+            color: white;
+            display: block;
+        }
+        .sidebar a:hover {
+            background-color: #495057;
+        }
+        .content {
+            margin-left: 260px;
+            padding: 20px;
+        }
+        span {
+            color: #fff;
+        }
+
+        
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        {% if messages %}
+        {% for message in messages %}
+            <div class="alert 
+                {% if message.tags == 'success' %}alert-success
+                {% elif message.tags == 'info' %}alert-info
+                {% elif message.tags == 'warning' %}alert-warning
+                {% elif message.tags == 'error' %}alert-danger
+                {% endif %} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endfor %}
+        {% endif %}
+        {% if user.is_authenticated %}
+            <h4 class="text-white text-center">Parc Informatique</h4>
+            <a href="{% url "home" %}"><i class="fas fa-tachometer-alt"></i> Tableau de bord</a>
+            <a href="{% url "liste_employes" %}"><i class="fas fa-users"></i> Employés</a>
+            <a href="{% url "liste_equipements" %}"><i class="fas fa-laptop"></i> Équipements</a>
+            <a href="{% url "liste_services" %}"><i class="fas fa-building"></i> Services</a>
+            <a href="{% url "liste_antennes" %}"><i class="fas fa-building"></i> Antennes</a>
+            <a href="{% url "historique_list" %}"><i class="fas fa-history"></i> Historique</a>
+            <a href="{% url 'settings' %}"><i class="fas fa-cog"></i> Paramètres</a>
+            <div class="d-flex align-items-center">
+                {% if user.is_superuser %}
+                    <i class="fa-solid fa-user-shield text-warning me-2" title="Administrateur connecté"></i>
+                {% else %}
+                    <i class="fa-solid fa-user text-success me-2" title="Utilisateur connecté"></i>
+                {% endif %}
+                    <span class="me-3">{{ user.username }}</span>
+                    <a href="{% url 'deconnexion' %}" class="btn btn-danger btn-sm">Déconnexion</a>
+            </div>
+        {% else %}
+            <a href="{% url 'connexion' %}" class="btn btn-primary">Connexion</a>
+        {% endif %}
+    </div>
+
+    <!-- Contenu principal -->
+    <div class="content">
+        <nav class="navbar navbar-light bg-light">
+            <div class="container-fluid">
+                <span class="navbar-brand mb-0 h1">Tableau de Bord</span>
+            </div>
+        </nav>
+
+        <div class="container mt-4">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="card bg-primary text-white text-center p-3">
+                        <h5><i class="fas fa-users"></i> Employés</h5>
+                        <p> {{ nombre_employe }} </p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card bg-success text-white text-center p-3">
+                        <h5><i class="fas fa-laptop"></i> Équipements</h5>
+                        <p> {{ nombre_equipements }} </p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card bg-warning text-white text-center p-3">
+                        <h5><i class="fas fa-building"></i> Antennes</h5>
+                        <p>{{ nombre_antennes }}</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card bg-danger text-white text-center p-3">
+                        <h5><i class="fas fa-history"></i> Historique</h5>
+                        <p>{{ historique_recent }} actions récentes</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

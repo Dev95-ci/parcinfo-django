@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block title %}Détails de l'Equipement{% endblock %}
+
+{% block content %}
+    <h1>Détails de {{ equipement.nom }} {{ equipement.serie }}</h1>
+    
+    <div class="row">
+        <div class="col-md-6">
+            <ul class="list-group">
+                <li class="list-group-item"><strong>NOM :</strong> {{ equipement.nom }}</li>
+                <li class="list-group-item"><strong>Type :</strong> {{ equipement.type }}</li>
+                <li class="list-group-item"><strong>Serie :</strong> {{ equipement.serie }}</li>
+                <li class="list-group-item"><strong>Statut :</strong> {{ equipement.statut }}</li>
+                <li class="list-group-item"><strong>Date achat :</strong> {{ equipement.date_achat }}</li>
+                <li class="list-group-item"><strong>utilisateur :</strong> {{ equipement.utilisateur.nom }}</li>
+                <li class="list-group-item"><strong>Service :</strong> {{ equipement.service.nom }}</li>
+            </ul>
+        </div>
+        <div class="col-md-6">
+            <h4>Historique des équipements :</h4>
+            <ul class="list-group">
+                {% for historique in historique %}
+                    <li class="list-group-item">
+                        <strong>{{ historique.equipement.nom }}</strong><br>
+                        Action : {{ historique.action }}<br>
+                        Date Action : {{ historique.date_action }}
+                        Description : {{ historique.description }}
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    <!-- Retour à la liste -->
+    <a href="{% url 'liste_equipements' %}" class="btn btn-secondary mt-4">Retour à la Liste des Equipements</a>
+{% endblock %}

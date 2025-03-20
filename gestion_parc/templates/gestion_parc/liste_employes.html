@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+
+{% block title %}Liste des Employés{% endblock %}
+
+{% block content %}
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert 
+                {% if message.tags == 'success' %}alert-success
+                {% elif message.tags == 'info' %}alert-info
+                {% elif message.tags == 'warning' %}alert-warning
+                {% elif message.tags == 'error' %}alert-danger
+                {% endif %} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endfor %}
+    {% endif %}
+
+
+    <h1 class="mb-4">Liste des Employés</h1>
+    
+    <!-- Ajout d'un nouvel employé -->
+    <a href="{% url 'ajouter_employe' %}" class="btn btn-primary mb-3">Ajouter un Employé</a>
+
+    <!-- Tableau des employés -->
+    <table class="table table-bordered">
+        <thead class="thead-dark">
+            <tr>
+                <th>Nom</th>
+                <th>Email</th>
+                <th>Service</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for employe in page_obj %}
+                <tr>
+                    <td>{{ employe.nom }} {{ employe.prenom }}</td>
+                    <td>{{ employe.email }}</td>
+                    <td>{{ employe.service.nom  }}</td>
+                    <td>
+                        <!-- Détail de l'employé -->
+                        <a href="{% url 'detail_employe' employe.id %}" class="btn btn-info btn-sm">Détails</a>
+
+                        <!-- Editer l'employé (si vous ajoutez une fonctionnalité de suppression) -->
+                        <a href="{% url 'modifier_employe' employe.id %}" class="btn btn-warning btn-sm">Éditer</a>
+                        
+                        <!-- Supprimer l'employé (si vous ajoutez une fonctionnalité de suppression) -->
+                        <a href="{% url 'supprimer_employe' employe.id %}" class="btn btn-danger btn-sm">Supprimer</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+<!-- PAGINATION AVEC NUMÉROTATION -->
+<nav>
+    <ul class="pagination justify-content-center">
+        {% if page_obj.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page=1">&laquo; Première</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Précédent</a>
+            </li>
+        {% endif %}
+
+        {% for num in page_obj.paginator.page_range %}
+            {% if page_obj.number == num %}
+                <li class="page-item active">
+                    <span class="page-link">{{ num }}</span>
+                </li>
+            {% elif num > page_obj.number|add:"-3" and num < page_obj.number|add:"3" %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                </li>
+            {% endif %}
+        {% endfor %}
+
+        {% if page_obj.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.next_page_number }}">Suivant</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Dernière &raquo;</a>
+            </li>
+        {% endif %}
+    </ul>
+</nav>
+{% endblock %}

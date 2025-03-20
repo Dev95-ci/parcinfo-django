@@ -1,0 +1,100 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Gestion du Parc Informatique{% endblock  %}</title>
+    <link rel="stylesheet" href="{% static "css/dashbord.css" %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        .fade-out {
+            opacity: 0;
+            transition: opacity 0.5s ease-out;
+        }
+        .fa-user-shield {
+            font-size: 1.2rem;
+            color: gold;
+        }
+
+        .fa-user {
+            font-size: 1.2rem;
+            color: green;
+        }
+        span{
+            color: #fff;
+        }
+        
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{% url "home" %}">
+                <i class="fas fa-network-wired"></i> Parc Informatique
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url "home" %}"><i class="fas fa-home"></i> Accueil</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url "liste_employes" %}"><i class="fas fa-users"></i> Employés</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url "liste_equipements" %}"><i class="fas fa-laptop"></i> Équipements</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url "liste_antennes" %}"><i class="fas fa-building"></i> Antennes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url "liste_services" %}"><i class="fas fa-building"></i>Services</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url "historique_list" %}"><i class="fas fa-history"></i> Historique</a>
+                    </li>
+                </ul>
+                <div class="d-flex align-items-center">
+                    {% if user.is_superuser %}
+                        <i class="fa-solid fa-user-shield text-warning me-2" title="Administrateur connecté"></i>
+                    {% else %}
+                        <i class="fa-solid fa-user text-success me-2" title="Utilisateur connecté"></i>
+                    {% endif %}
+                        <span class="me-3">{{ user.username }}</span>
+                        <a href="{% url 'deconnexion' %}" class="btn btn-danger btn-sm">Déconnexion</a>
+                </div>
+                {% else %}
+                    <a href="{% url 'connexion' %}" class="btn btn-primary">Connexion</a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <h1>Bienvenue sur le système de gestion du parc informatique</h1>
+        <p>Utilisez le menu pour naviguer entre les différentes sections.</p>
+        {% block content %}{% endblock  %}
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        setTimeout(function() {
+            let alerts = document.querySelectorAll(".alert");
+            alerts.forEach(alert => {
+                alert.classList.add("fade-out");
+                setTimeout(() => alert.remove(), 500);
+            });
+        }, 4000);  // Disparaît après 4 secondes
+    </script>
+    
+   
+    
+</body>
+</html>

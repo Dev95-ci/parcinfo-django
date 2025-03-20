@@ -1,0 +1,4 @@
+web: gunicorn parc_info.wsgi
+
+web: gunicorn --config gunicorn.conf.py gettingstarted.wsgi
+web: python manage.py runserver %PORT%

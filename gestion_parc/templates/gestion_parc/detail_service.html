@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block title %}Détails du Service{% endblock %}
+
+{% block content %}
+    <h1>Détails de {{ service.nom }}</h1>
+    
+    <div class="row">
+        <div class="col-md-6">
+            <ul class="list-group">
+                <li class="list-group-item"><strong>Nom :</strong> {{ service.nom }}</li>
+                <li class="list-group-item"><strong>Chef du Service :</strong> {{ service.chef }}</li>
+                <li class="list-group-item"><strong>Description :</strong> {{ service.description}}</li>
+                <li class="list-group-item"><strong>Antenne :</strong> {{ service.antenne }}</li>
+            </ul>
+        </div>
+        <div class="col-md-6">
+            <h4>La liste des employés du service :</h4>
+            <table class="table table-bordered">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Nom</th>
+                        <th>Email</th>
+                        <th>Service</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for employe in employes %}
+                        <tr>
+                            <td>{{ employe.nom }} {{ employe.prenom }}</td>
+                            <td>{{ employe.email }}</td>
+                            <td>{{ employe.service.nom  }}</td>
+                            <td>
+                                <!-- Détail de l'employé -->
+                                <a href="{% url 'detail_employe' employe.id %}" class="btn btn-info btn-sm">Détails</a>
+        
+                                <!-- Editer l'employé (si vous ajoutez une fonctionnalité de suppression) -->
+                                <a href="{% url 'modifier_employe' employe.id %}" class="btn btn-warning btn-sm">Éditer</a>
+                                
+                                <!-- Supprimer l'employé (si vous ajoutez une fonctionnalité de suppression) -->
+                                <a href="{% url 'supprimer_employe' employe.id %}" class="btn btn-danger btn-sm">Supprimer</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Retour à la liste -->
+    <a href="{% url 'liste_services' %}" class="btn btn-secondary mt-4">Retour</a>
+{% endblock %}

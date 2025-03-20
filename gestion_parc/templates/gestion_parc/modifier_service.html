@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}Modification d'un Service{% endblock  %}
+
+
+{% block content %}
+
+    <div class="container mt-5">
+        <h2>Modifier un Service</h2>
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary">Mettre à jour</button>
+        </form>
+    </div>
+
+{% endblock  %}

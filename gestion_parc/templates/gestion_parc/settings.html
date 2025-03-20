@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Paramètres</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="container mt-5">
+
+    <h1>Paramètres du Dashboard en cours</h1>
+
+    <ul class="list-group">
+        {% comment %} <li class="list-group-item"><a href="{% url 'modifier_utilisateur' %}">Modifier mon profil</a></li>
+        <li class="list-group-item"><a href="{% url 'changer_mot_de_passe' %}">Changer le mot de passe</a></li>
+        <li class="list-group-item"><a href="{% url 'gestion_utilisateurs' %}">Gestion des utilisateurs</a></li>
+        <li class="list-group-item"><a href="{% url 'notifications' %}">Paramètres des notifications</a></li>
+        <li class="list-group-item"><a href="{% url 'logs' %}">Historique des actions</a></li>
+        <li class="list-group-item"><a href="{% url 'parametres_système' %}">Paramètres du système</a></li> {% endcomment %}
+
+        <li class="list-group-item"><a href="">Modifier mon profil</a></li>
+        <li class="list-group-item"><a href="">Changer le mot de passe</a></li>
+        <li class="list-group-item"><a href="">Gestion des utilisateurs</a></li>
+        <li class="list-group-item"><a href="">Paramètres des notifications</a></li>
+        <li class="list-group-item"><a href="">Historique des actions</a></li>
+        <li class="list-group-item"><a href="">Paramètres du système</a></li>
+    </ul>
+
+    <a href="{% url 'home' %}" class="btn btn-secondary mt-3">Retour au Dashboard</a>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

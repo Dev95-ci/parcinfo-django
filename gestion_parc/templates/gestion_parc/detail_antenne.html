@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block title %}Détails du Service{% endblock %}
+
+{% block content %}
+    <h1>Détails de {{ antenne.nom }}</h1>
+    
+    <div class="row">
+        <div class="col-md-6">
+            <ul class="list-group">
+                <li class="list-group-item"><strong>Nom :</strong> {{ antenne.nom }}</li>
+                <li class="list-group-item"><strong>Chef de l'antenne :</strong> {{ antenne.chef_antenne }}</li>
+                <li class="list-group-item"><strong>Ville :</strong> {{ antenne.ville}}</li>
+            </ul>
+        </div>
+        <div class="col-md-6">
+            <h4>La liste des services de l'Antenne :</h4>
+            <table class="table table-bordered">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Nom</th>
+                        <th>Description</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for service in services %}
+                        <tr>
+                            <td>{{ service.nom }} </td>
+                            <td>{{ service.description }}</td>
+                            <td>
+                                <!-- Détail de l'employé -->
+                                <a href="{% url 'detail_service' service.id %}" class="btn btn-info btn-sm">Détails</a>
+        
+                                <a href="{% url 'modifier_service' service.id %}" class="btn btn-warning btn-sm">Éditer</a>
+                                
+                                <!-- Supprimer l'employé (si vous ajoutez une fonctionnalité de suppression) -->
+                                <a href="{% url "supprimer_service" service.id %}" class="btn btn-danger btn-sm">Supprimer</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Retour à la liste -->
+    <a href="{% url 'liste_antennes' %}" class="btn btn-secondary mt-4">Retour</a>
+{% endblock %}
